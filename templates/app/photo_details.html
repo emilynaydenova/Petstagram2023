@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex">
+        <div class="d-inline p-2 w-50">
+            <!-- Image -->
+            <img src="{{ pet_photo.photoFile.url }}"
+                 class="w-100 rounded mx-auto d-block" alt="Photo description">
+        </div>
+        <div class="d-inline p-2 w-50">
+            {% for pet in pet_photo.tagged_pets.all %}
+                <div class="d-flex justify-content-between">
+                    <h5><u>Type:</u> {{ pet.get_type_display }}</h5>
+                    <h5><u>Name:</u> {{ pet.name }}</h5>
+                    {% if pet.DoB %}
+                        <h5><u>Age:</u> {{ pet.age }}</h5>
+                     {% else %}
+                         <h5><u>Age:</u> Not known</h5>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <!-- Description -->
+            <p class="mt-2">Description: {{ pet_photo.description }}</p>
+            <p class="mt-2">Published at: {{ pet_photo.created }}</p>
+         {% if not is_logged  or not is_owner %}
+            <!-- Likes Button -->
+            <a href="{% url 'like pet photo' pet_photo.pk %}"><i class="fa-regular fa-heart" style="color:red"></i></a>
+         {% endif %}
+                        <!-- Likes Counter -->
+            <p class="mt-2">Likes: {{ pet_photo.likes }}</p>
+
+        {% if is_owner %}
+            <!-- Buttons -->
+            <a href="{% url  'edit pet photo' pet_photo.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'delete pet photo' pet_photo.pk  %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+        </div>
+    </div>
+ {% endblock content %}

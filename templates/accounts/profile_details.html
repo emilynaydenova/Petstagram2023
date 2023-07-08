@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block  content %}
+    <!-- Profile Information -->
+    <div class="row justify-content-center">
+        <div class="d-flex">
+            <div class="d-inline p-2 w-50">
+                <img src="{{ profile.pictureURL }}"  {# from URL #}
+                     class="w-50 rounded mx-auto d-block" alt="profile picture"/>
+            </div>
+            <div class="d-inline p-2 w-50">
+                <div class="d-flex flex-column">
+                    <h5><u>Name:</u> {{ profile.full_name }} </h5>
+                    <!-- If Date of Birth -->
+                    {% if profile.DoB %}
+                        <h5><u>Birthdate:</u> {{ profile.DoB|date:"M d, Y" }}</h5>
+                        {#                         <h5><u>Birthdate:</u> July 15, 1999</h5>#}
+                    {% else %}
+                         <h5><u>Birthdate:</u> Not known.</h5>
+                    {% endif %}
+                    <!-- If Email -->
+                    {% if profile.email %}
+                        <h5><u>Email:</u> {{ profile.email }}</h5>
+                    {% else %}
+                         <h5><u>Email:</u> Not known.</h5>
+                    {% endif %}
+                    <!-- If Gender is Chosen -->
+                    {% if profile.gender %}
+                        <h5><u>Gender:</u> {{ profile.get_gender_display }}</h5>
+                    {% else %}
+                        <h5><u>Gender:</u> Not known.</h5>
+                    {% endif %}
+                    <!-- If Description -->
+                    {% if profile.description %}
+                        <h5><u>Description:</u> {{ profile.description }}</h5>
+                    {% else %}
+                        <h5><u>Description:</u> Not exists.</h5>
+                    {% endif %}
+                </div>
+{#                <p class="mt-2">Total Images: {{ profile.pet_set.count }}</p>#}
+                <p class="mt-2">Total Images: {{ total_pet_photos_count }}</p>
+                <p class="mt-2">Total Likes: {{ total_likes_count }}</p>
+
+            {% if is_owner %}
+                <a href="{% url 'edit profile' request.user.id %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'delete profile' request.user.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'change password' request.user.id %}" class="btn btn-info">Change Password</a>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- End Profile Information -->
+
+<!-- Pets Information -->
+<h2 class="text-center">My Pets</h2>
+<div class="container mb-4">
+    <div class="d-flex justify-content-start mb-5">
+        {% for pet in pets %}
+        <!-- Info for First Pet -->
+        <div style="width: 18rem;">
+            <h5>{{ pet.name }}</h5>
+            {% if pet.date_of_birth %}
+                <p class="mt-2">Age: {{  pet.age }}</p>
+            {% endif %}
+            <a href="{% url 'edit pet' pet.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'delete pet' pet.pk %}" class="btn btn-danger">Delete</a>
+
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
+

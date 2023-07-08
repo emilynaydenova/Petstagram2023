@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Petstagram</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="https://pluspng.com/img-png/instagram-png-instagram-png-icon-1024.png">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.4.0/css/all.css">
+    {% block style %}
+    {% endblock style %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom:2%">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            {#        ---------------------------------- #}
+            <li class="nav-item">
+                {{ user }}
+            </li>
+            {#        ----------------------------------#}
+            <!-- Link to Home Page -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}#">Home</a>
+            </li>
+
+            <!-- Link to Dashboard Page -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+{#            {% if not hide_additional_nav_items %}#}
+             {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create pet' %}">Add Pet</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add pet photo' %}">Add Photo</a>
+                </li>
+
+                <!-- Link to Profile Page -->
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile details'  request.user.id %}#">Profile</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% endif %}
+
+
+
+        </ul>
+    </div>
+</nav>
+<!-- End Navigation Bar -->
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Page Footer -->
+<footer class="fixed-bottom card-footer bg-light ">
+    <div>@2023 Python Web Basics Workshop at SoftUni</div>
+</footer>
+<!-- End Page Footer -->
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+
+</html>
